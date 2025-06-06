@@ -1,0 +1,36 @@
+Please carefully read the following explanation so you understand the exact purpose:
+
+Context:
+
+I will begin studying (I have not yet started, I am starting this year 1st year there) as a student fromTransilvania Brasov (use the vampire thing maybe) , recently admitted to the University of Twente in the Netherlands.
+In the Netherlands, many students live in shared student houses. These are often managed by the students themselves, not by professional landlords.
+To join these houses, new students apply by sending an introduction email to the housemates, who then choose which applicants to invite. This is called "hospiteren" in Dutch culture.
+Many houses receive a large number of applications, so it is very important to stand out and make a good impression.
+Goal of this website:
+
+I want to create a fun, interactive personal website that I can send to these student houses to introduce myself in a more creative way.
+
+To understand my personality and tone, here is an example of the email I normally send to student houses. Please use this as inspiration for the style and information that should appear in the game or interactive content:
+
+Hey guys,
+
+My name is Victor, and I’m excited about the chance to possibly join your house! I’ve just been admitted to the University of Twente as a first-year student in the Business Information Technology programme, and I’m currently looking for a fun, social, and respectful place to live and your house seems like exactly that.
+
+A little bit about me: I’m from Romania, and I spent the past year studying at a university in the USA. I lived in shared dorms with roommates in the same room and shared bathrooms/kitchens on the floor, so I’m already used to communal living and know how important it is to keep shared spaces clean, respect others’ routines, and still enjoy the social side of things. That year taught me a lot about independence and how to build real bonds with people from different backgrounds.
+
+Now, personality-wise, I’d say I’m open-minded, extroverted, and always down to try new things. I’m the kind of guy who’ll join a board game night one day, then happily dance at a party the next. I love social events and am always up for a good time, but I also really value quiet during the week when it’s time to study or sleep. I try to keep a solid routine and believe that a good night's sleep is sacred especially during the uni grind.
+
+One thing you should know: I can cook. Like, really cook. I make an amazing pizza from scratch, some amazing pastries, and the best traditional Romanian BBQ grill you’ll ever taste, seriously, nothing beats it. I’d love to share that with housemates!
+
+Besides cooking, I’m into going to the gym, having good conversations, and I'm a huge fan of debates and deep discussions as long as they’re respectful and constructive. I enjoy hearing other perspectives and exchanging ideas over a drink or a late-night chat in the kitchen.
+
+Thanks a lot for considering me!
+
+Looking forward to hearing from you,
+
+Victor Gavrila
+
+
+Instructions:
+
+Please make a super mario scroller jumper 2D simple style game that is a bit transilvania themed in whcih the person jumps and discovers more stuff about me 
