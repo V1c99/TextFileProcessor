@@ -21,20 +21,34 @@ export const useAudio = create<AudioState>((set, get) => ({
   backgroundMusic: null,
   hitSound: null,
   successSound: null,
-  isMuted: true, // Start muted by default
+  isMuted: false, // Start unmuted by default
   
-  setBackgroundMusic: (music) => set({ backgroundMusic: music }),
-  setHitSound: (sound) => set({ hitSound: sound }),
-  setSuccessSound: (sound) => set({ successSound: sound }),
+  setBackgroundMusic: (music) => {
+    set((state) => {
+      if (music) music.muted = state.isMuted;
+      return { backgroundMusic: music };
+    });
+  },
+  setHitSound: (sound) => {
+    set((state) => {
+      if (sound) sound.muted = state.isMuted;
+      return { hitSound: sound };
+    });
+  },
+  setSuccessSound: (sound) => {
+    set((state) => {
+      if (sound) sound.muted = state.isMuted;
+      return { successSound: sound };
+    });
+  },
   
   toggleMute: () => {
-    const { isMuted } = get();
+    const { isMuted, backgroundMusic, hitSound, successSound } = get();
     const newMutedState = !isMuted;
-    
-    // Just update the muted state
     set({ isMuted: newMutedState });
-    
-    // Log the change
+    if (backgroundMusic) backgroundMusic.muted = newMutedState;
+    if (hitSound) hitSound.muted = newMutedState;
+    if (successSound) successSound.muted = newMutedState;
     console.log(`Sound ${newMutedState ? 'muted' : 'unmuted'}`);
   },
   

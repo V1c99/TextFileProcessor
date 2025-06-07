@@ -70,7 +70,7 @@ export const levels: Level = {
       x: 970, y: 370, width: 20, height: 20,
       type: 'personality',
       title: 'Respectful Living',
-      message: "🤝 I deeply value respect and cleanliness in shared spaces. Good sleep is sacred, especially during uni grind!",
+      message: "🤝 I deeply value respect and cleanliness in shared spaces. Good sleep is most important for me, especially during week nights!",
       points: 100
     },
 
@@ -79,8 +79,8 @@ export const levels: Level = {
       id: 'romanian',
       x: 150, y: 520, width: 20, height: 20,
       type: 'background',
-      title: 'Romanian Heritage',
-      message: "🇷🇴 I'm from Romania (hence the Transylvania theme!). I bring rich cultural experiences and amazing traditional recipes!",
+      title: 'Introduction',
+      message: "I am a verry open and friendly person, always looking for any oportunity to learn, grow and explore new horizons!",
       points: 150
     },
     {
@@ -88,7 +88,7 @@ export const levels: Level = {
       x: 1120, y: 220, width: 20, height: 20,
       type: 'background',
       title: 'USA University Experience',
-      message: "🇺🇸 I spent a year studying in the USA with shared dorms and roommates. I know how to navigate communal living successfully!",
+      message: "I spent a year studying in the USA living in a shared room with 2 other roommates. I know how to navigate communal living successfully!",
       points: 150
     },
     {
@@ -96,7 +96,7 @@ export const levels: Level = {
       x: 1600, y: 270, width: 20, height: 20,
       type: 'background',
       title: 'BIT Student at UT',
-      message: "🎓 I'm a first-year Business Information Technology student at University of Twente. Ready to dive into Dutch student life!",
+      message: "🎓 I will be a Bachelors Business IT student at University of Twente. I'm interested in everything tech related!",
       points: 150
     },
 
@@ -122,7 +122,7 @@ export const levels: Level = {
       x: 1820, y: 170, width: 20, height: 20,
       type: 'hobby',
       title: 'Love Good Debates',
-      message: "🗣️ I'm a huge fan of respectful debates and deep discussions. Love exchanging ideas over drinks or late-night kitchen chats!",
+      message: "🗣️ I'm a big fan of respectful debates and deep discussions. I like exchanging ideas over drinks or late-night kitchen chats!",
       points: 100
     },
 
@@ -148,7 +148,7 @@ export const levels: Level = {
       x: 2570, y: 270, width: 20, height: 20,
       type: 'background',
       title: 'Cultural Bridge',
-      message: "🌉 Having lived in Romania and the USA, I love being a cultural bridge and sharing different perspectives with housemates!",
+      message: "🌉 Having lived in shared international environments, I am accustomed with different perspectives and cultures!",
       points: 150
     }
   ]

@@ -201,7 +201,7 @@ export class GameEngine {
       const finalCastle = this.platforms.find(p => p.type === 'castle' && p.x > 2800);
       const reachedEnd = this.player.x > 2900; // Simpler trigger based on x position
       
-      if (reachedEnd || (finalCastle && this.checkCollision(this.player, finalCastle)) || this.collectibles.length === 0) {
+      if (reachedEnd || (finalCastle && this.checkCollision(this.player, finalCastle))) {
         this.gameEnded = true;
         gameState.setMessage("🎉 Congratulations! You've reached the end of Victor's adventure! Now you know what makes me a great housemate. I hope we can meet soon!");
         setTimeout(() => {
@@ -452,6 +452,26 @@ export class GameEngine {
           this.ctx.fillRect(px + i + 2, py + 18, 2, 6);
         }
         
+        // If this is the final castle, draw a 'Finish' sign
+        if (px === 2850 && py === 400 && pw === 200 && ph === 100) {
+          this.ctx.save();
+          // Floating effect
+          const time = Date.now() * 0.003;
+          const floatY = Math.sin(time) * 5;
+          this.ctx.font = 'bold 32px Arial';
+          this.ctx.textAlign = 'center';
+          this.ctx.textBaseline = 'bottom';
+          this.ctx.strokeStyle = '#b8860b';
+          this.ctx.lineWidth = 4;
+          // Move sign slightly to the right (+15px)
+          const signX = px + pw/2 + 15;
+          const signY = py - 18 + floatY;
+          // Draw the text (no background)
+          this.ctx.strokeText('Finish', signX, signY);
+          this.ctx.fillStyle = '#fffbe6';
+          this.ctx.fillText('Finish', signX, signY);
+          this.ctx.restore();
+        }
       } else if (platform.type === 'tree') {
         // Tree trunk
         this.ctx.fillStyle = '#5d4037';
@@ -798,5 +818,27 @@ export class GameEngine {
     this.particles = [];
     this.dustParticles = [];
     this.gameEnded = false;
+  }
+
+  // Expose movement methods for UI controls
+  public moveLeft() {
+    this.player.velocityX = -this.speed;
+    this.player.direction = 'left';
+  }
+
+  public moveRight() {
+    this.player.velocityX = this.speed;
+    this.player.direction = 'right';
+  }
+
+  public jump() {
+    if (this.player.onGround) {
+      this.player.velocityY = this.jumpPower;
+      this.player.onGround = false;
+    }
+  }
+
+  public stop() {
+    this.player.velocityX = 0;
   }
 }

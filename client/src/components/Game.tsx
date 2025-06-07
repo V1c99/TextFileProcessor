@@ -37,9 +37,9 @@ export default function Game() {
               🧛 Victor's Transylvania Adventure 🦇
             </h1>
             <p className="text-gray-300 mb-6 text-lg leading-relaxed">
-              Hey future housemates! I'm Victor from Romania, and I've created this interactive game 
-              to introduce myself in a fun way. Navigate through my Transylvanian world and discover 
-              who I am, what I love, and why I'd be a great addition to your student house!
+              Hey future housemates! I'm Victor from Transylvania, and I've created this interactive game 
+              to introduce myself in a fun way. Navigate through this themathic world and discover 
+              who I am, what I like, and why I'd be a great addition to your student house!
             </p>
             <div className="space-y-4">
               <div className="text-sm text-gray-400 mb-4">
@@ -71,8 +71,9 @@ export default function Game() {
 
   return (
     <div className="w-full h-full relative">
-      <GameCanvas />
-      <GameUI onRestart={handleRestart} />
+      <GameCanvas>
+        <GameUI onRestart={handleRestart} />
+      </GameCanvas>
     </div>
   );
 }

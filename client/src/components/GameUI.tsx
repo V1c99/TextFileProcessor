@@ -2,6 +2,8 @@ import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { useGameState } from '../lib/stores/useGameState';
 import { useAudio } from '../lib/stores/useAudio';
+import { useGameEngine } from './GameCanvas';
+import { useRef } from 'react';
 
 interface GameUIProps {
   onRestart: () => void;
@@ -10,6 +12,28 @@ interface GameUIProps {
 export default function GameUI({ onRestart }: GameUIProps) {
   const { phase, collectedItems, currentMessage, score } = useGameState();
   const { toggleMute, isMuted } = useAudio();
+  const gameEngine = useGameEngine();
+  const leftPressedRef = useRef(false);
+  const rightPressedRef = useRef(false);
+
+  // Helper to handle global release for left
+  const handleLeftRelease = () => {
+    if (leftPressedRef.current) {
+      gameEngine?.handleKeyUp('ArrowLeft');
+      leftPressedRef.current = false;
+      window.removeEventListener('mouseup', handleLeftRelease);
+      window.removeEventListener('touchend', handleLeftRelease);
+    }
+  };
+  // Helper to handle global release for right
+  const handleRightRelease = () => {
+    if (rightPressedRef.current) {
+      gameEngine?.handleKeyUp('ArrowRight');
+      rightPressedRef.current = false;
+      window.removeEventListener('mouseup', handleRightRelease);
+      window.removeEventListener('touchend', handleRightRelease);
+    }
+  };
 
   if (phase === 'ended') {
     return (
@@ -27,25 +51,12 @@ export default function GameUI({ onRestart }: GameUIProps) {
               <p className="text-yellow-400 font-semibold">Final Score: {score}</p>
               <p className="text-gray-300">Items Discovered: {collectedItems.length}</p>
             </div>
-            <div className="text-left space-y-2 mb-6 text-gray-300">
-              <p><strong className="text-red-400">Contact Info:</strong></p>
-              <p>📧 Email: victor.gavrila@student.utwente.nl</p>
-              <p>🎓 Programme: Business Information Technology, Year 1</p>
-              <p>🏠 Looking for: Fun, social, and respectful student house</p>
-            </div>
             <div className="flex gap-4 justify-center">
               <Button 
                 onClick={onRestart}
                 className="bg-red-600 hover:bg-red-700 text-white px-6 py-2"
               >
                 Play Again
-              </Button>
-              <Button 
-                onClick={() => window.open('mailto:victor.gavrila@student.utwente.nl?subject=Student House Application', '_blank')}
-                variant="outline"
-                className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white px-6 py-2"
-              >
-                Get in Touch
               </Button>
             </div>
           </CardContent>
@@ -150,11 +161,25 @@ export default function GameUI({ onRestart }: GameUIProps) {
               className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white text-xl font-bold rounded-xl shadow-lg border border-yellow-400/20"
               onTouchStart={(e) => {
                 e.preventDefault();
-                document.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowLeft' }));
+                gameEngine?.handleKeyDown('ArrowLeft');
+                leftPressedRef.current = true;
+                window.addEventListener('mouseup', handleLeftRelease);
+                window.addEventListener('touchend', handleLeftRelease);
               }}
               onTouchEnd={(e) => {
                 e.preventDefault();
-                document.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowLeft' }));
+                handleLeftRelease();
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                gameEngine?.handleKeyDown('ArrowLeft');
+                leftPressedRef.current = true;
+                window.addEventListener('mouseup', handleLeftRelease);
+                window.addEventListener('touchend', handleLeftRelease);
+              }}
+              onMouseUp={(e) => {
+                e.preventDefault();
+                handleLeftRelease();
               }}
             >
               ←
@@ -163,11 +188,25 @@ export default function GameUI({ onRestart }: GameUIProps) {
               className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white text-xl font-bold rounded-xl shadow-lg border border-yellow-400/20"
               onTouchStart={(e) => {
                 e.preventDefault();
-                document.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }));
+                gameEngine?.handleKeyDown('ArrowRight');
+                rightPressedRef.current = true;
+                window.addEventListener('mouseup', handleRightRelease);
+                window.addEventListener('touchend', handleRightRelease);
               }}
               onTouchEnd={(e) => {
                 e.preventDefault();
-                document.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight' }));
+                handleRightRelease();
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                gameEngine?.handleKeyDown('ArrowRight');
+                rightPressedRef.current = true;
+                window.addEventListener('mouseup', handleRightRelease);
+                window.addEventListener('touchend', handleRightRelease);
+              }}
+              onMouseUp={(e) => {
+                e.preventDefault();
+                handleRightRelease();
               }}
             >
               →
@@ -177,11 +216,19 @@ export default function GameUI({ onRestart }: GameUIProps) {
             className="w-full h-14 bg-gradient-to-br from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold text-lg rounded-xl shadow-lg border border-yellow-300"
             onTouchStart={(e) => {
               e.preventDefault();
-              document.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }));
+              gameEngine?.jump();
             }}
             onTouchEnd={(e) => {
               e.preventDefault();
-              document.dispatchEvent(new KeyboardEvent('keyup', { code: 'Space' }));
+              // No stop needed for jump
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              gameEngine?.jump();
+            }}
+            onMouseUp={(e) => {
+              e.preventDefault();
+              // No stop needed for jump
             }}
           >
             JUMP

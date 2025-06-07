@@ -1,8 +1,11 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, createContext, useContext } from 'react';
 import { GameEngine } from '../lib/gameEngine';
 import { useGameState } from '../lib/stores/useGameState';
 
-export default function GameCanvas() {
+// Create a context to provide the GameEngine instance
+export const GameEngineContext = createContext<GameEngine | null>(null);
+
+export default function GameCanvas({ children }: { children?: React.ReactNode }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameEngineRef = useRef<GameEngine | null>(null);
   const animationFrameRef = useRef<number>(0);
@@ -92,13 +95,21 @@ export default function GameCanvas() {
   }, [gameLoop]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
-      style={{ 
-        imageRendering: 'pixelated',
-        touchAction: 'none'
-      }}
-    />
+    <GameEngineContext.Provider value={gameEngineRef.current}>
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+        style={{ 
+          imageRendering: 'pixelated',
+          touchAction: 'none'
+        }}
+      />
+      {children}
+    </GameEngineContext.Provider>
   );
+}
+
+// Custom hook for consuming the GameEngine instance
+export function useGameEngine() {
+  return useContext(GameEngineContext);
 }
