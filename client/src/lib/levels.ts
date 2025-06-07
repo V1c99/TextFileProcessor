@@ -106,7 +106,7 @@ export const levels: Level = {
       x: 750, y: 420, width: 20, height: 20,
       type: 'skill',
       title: 'Amazing Cook',
-      message: "👨‍🍳 I can REALLY cook! Amazing pizza from scratch, pastries, and the best Romanian BBQ you'll ever taste. Ready to share!",
+      message: "👨‍🍳 I can REALLY cook! Amazing pizza from scratch, pastries, and the best BBQ grill you'll ever taste. Ready to share!",
       points: 200
     },
     {
