@@ -199,12 +199,14 @@ export class GameEngine {
     // Check win condition - reaching the final castle or all collectibles
     if (!this.gameEnded) {
       const finalCastle = this.platforms.find(p => p.type === 'castle' && p.x > 2800);
-      if ((finalCastle && this.checkCollision(this.player, finalCastle)) || this.collectibles.length === 0) {
+      const reachedEnd = this.player.x > 2900; // Simpler trigger based on x position
+      
+      if (reachedEnd || (finalCastle && this.checkCollision(this.player, finalCastle)) || this.collectibles.length === 0) {
         this.gameEnded = true;
-        gameState.setMessage("🎉 Congratulations! You've completed Victor's adventure! Thanks for getting to know me!");
+        gameState.setMessage("🎉 Congratulations! You've reached the end of Victor's adventure! Now you know what makes me a great housemate. I hope we can meet soon!");
         setTimeout(() => {
           gameState.end();
-        }, 3000);
+        }, 4000);
       }
     }
 
@@ -368,20 +370,120 @@ export class GameEngine {
 
   private drawPlatforms() {
     for (const platform of this.platforms) {
-      this.ctx.fillStyle = this.getPlatformColor(platform.type);
-      this.ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+      const px = platform.x;
+      const py = platform.y;
+      const pw = platform.width;
+      const ph = platform.height;
       
-      // Add some texture/details based on platform type
-      if (platform.type === 'castle') {
-        // Add castle details
-        this.ctx.fillStyle = '#4a0e4e';
-        for (let i = 0; i < platform.width; i += 20) {
-          this.ctx.fillRect(platform.x + i, platform.y, 10, -10);
+      // Add shadow beneath platforms
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+      this.ctx.fillRect(px + 2, py + ph, pw - 2, 3);
+      
+      if (platform.type === 'ground') {
+        // Ground with dirt and grass
+        this.ctx.fillStyle = '#5d4037';
+        this.ctx.fillRect(px, py, pw, ph);
+        
+        // Grass layer
+        this.ctx.fillStyle = '#388e3c';
+        this.ctx.fillRect(px, py, pw, 8);
+        
+        // Grass texture
+        this.ctx.fillStyle = '#4caf50';
+        for (let i = 0; i < pw; i += 8) {
+          this.ctx.fillRect(px + i, py, 2, 6);
+          this.ctx.fillRect(px + i + 4, py + 2, 2, 4);
         }
+        
+        // Top highlight
+        this.ctx.fillStyle = '#66bb6a';
+        this.ctx.fillRect(px, py, pw, 1);
+        
+      } else if (platform.type === 'platform') {
+        // Wooden platform
+        this.ctx.fillStyle = '#8d6e63';
+        this.ctx.fillRect(px, py, pw, ph);
+        
+        // Wood planks
+        this.ctx.fillStyle = '#6d4c41';
+        for (let i = 0; i < pw; i += 24) {
+          this.ctx.fillRect(px + i, py, 1, ph);
+        }
+        
+        // Wood grain
+        this.ctx.fillStyle = '#5d4037';
+        for (let j = 2; j < ph; j += 4) {
+          this.ctx.fillRect(px + 4, py + j, pw - 8, 1);
+        }
+        
+        // Highlights and shadows
+        this.ctx.fillStyle = '#bcaaa4';
+        this.ctx.fillRect(px, py, pw, 1);
+        this.ctx.fillStyle = '#4e342e';
+        this.ctx.fillRect(px, py + ph - 1, pw, 1);
+        
+      } else if (platform.type === 'castle') {
+        // Castle stone
+        this.ctx.fillStyle = '#607d8b';
+        this.ctx.fillRect(px, py, pw, ph);
+        
+        // Stone blocks
+        this.ctx.fillStyle = '#455a64';
+        for (let i = 0; i < pw; i += 32) {
+          for (let j = 0; j < ph; j += 16) {
+            this.ctx.fillRect(px + i, py + j, 30, 14);
+            this.ctx.strokeStyle = '#37474f';
+            this.ctx.lineWidth = 1;
+            this.ctx.strokeRect(px + i, py + j, 30, 14);
+          }
+        }
+        
+        // Castle battlements
+        this.ctx.fillStyle = '#546e7a';
+        for (let i = 0; i < pw; i += 24) {
+          this.ctx.fillRect(px + i, py - 12, 16, 12);
+          this.ctx.fillRect(px + i + 4, py - 16, 8, 4);
+        }
+        
+        // Windows
+        this.ctx.fillStyle = '#263238';
+        for (let i = 20; i < pw - 20; i += 40) {
+          this.ctx.fillRect(px + i, py + 16, 6, 10);
+          this.ctx.fillRect(px + i + 2, py + 18, 2, 6);
+        }
+        
       } else if (platform.type === 'tree') {
-        // Add tree crown
-        this.ctx.fillStyle = '#0f4a0f';
-        this.ctx.fillRect(platform.x - 10, platform.y - 30, platform.width + 20, 30);
+        // Tree trunk
+        this.ctx.fillStyle = '#5d4037';
+        this.ctx.fillRect(px + pw/2 - 12, py, 24, ph);
+        
+        // Bark texture
+        this.ctx.fillStyle = '#4e342e';
+        for (let j = 0; j < ph; j += 8) {
+          this.ctx.fillRect(px + pw/2 - 10, py + j, 2, 6);
+          this.ctx.fillRect(px + pw/2 + 6, py + j + 4, 2, 4);
+        }
+        
+        // Tree crown
+        this.ctx.fillStyle = '#2e7d32';
+        this.ctx.beginPath();
+        this.ctx.ellipse(px + pw/2, py - 20, 35, 25, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        this.ctx.fillStyle = '#388e3c';
+        this.ctx.beginPath();
+        this.ctx.ellipse(px + pw/2 - 12, py - 15, 25, 18, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        this.ctx.beginPath();
+        this.ctx.ellipse(px + pw/2 + 12, py - 15, 25, 18, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        // Tree highlights
+        this.ctx.fillStyle = '#4caf50';
+        this.ctx.beginPath();
+        this.ctx.ellipse(px + pw/2 - 8, py - 25, 12, 8, 0, 0, Math.PI * 2);
+        this.ctx.fill();
       }
     }
   }
