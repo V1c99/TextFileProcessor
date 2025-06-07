@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, log } from "./vite";
+import { registerRoutes } from "../server/routes";
+import { setupVite, log } from "../server/vite";
 
 const app = express();
 app.use(express.json());
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = await registerRoutes(app);
+  await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -49,18 +49,9 @@ app.use((req, res, next) => {
 
   // In development, use Vite for SSR/middleware
   if (process.env.NODE_ENV === "development") {
-    await setupVite(app, server);
-  }
-
-  // Only start the server if we're not in a serverless environment
-  if (!process.env.VERCEL) {
-    const port = process.env.PORT || 5000;
-    server.listen({
-      port: Number(port),
-      host: "0.0.0.0",
-      reusePort: true,
-    }, () => {
-      log(`serving on port ${port}`);
-    });
+    // Vercel will not use this, but keep for local dev
+    await setupVite(app, null as any);
   }
 })();
+
+export default app; 
