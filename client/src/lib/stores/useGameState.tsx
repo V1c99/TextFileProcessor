@@ -84,10 +84,13 @@ export const useGameState = create<GameState>()(
         };
       });
       
-      // Clear message after 4 seconds
+      // Clear message after 6 seconds (increased time)
       setTimeout(() => {
-        set({ currentMessage: null });
-      }, 4000);
+        const currentState = get();
+        if (currentState.currentMessage === item.message) {
+          set({ currentMessage: null });
+        }
+      }, 6000);
     },
     
     setMessage: (message: string | null) => {

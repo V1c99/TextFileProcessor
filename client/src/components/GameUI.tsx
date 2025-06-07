@@ -100,7 +100,13 @@ export default function GameUI({ onRestart }: GameUIProps) {
 
       {/* Current message display - Enhanced popup */}
       {currentMessage && (
-        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+        <div 
+          className="absolute inset-0 flex items-center justify-center z-20 cursor-pointer"
+          onClick={() => {
+            const gameState = useGameState.getState();
+            gameState.setMessage(null);
+          }}
+        >
           <div className="animate-in zoom-in-95 duration-300 max-w-2xl mx-4">
             <Card className="bg-gradient-to-br from-red-900/95 to-purple-900/95 border-2 border-yellow-400 shadow-2xl backdrop-blur-md">
               <CardContent className="p-6 relative">
