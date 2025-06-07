@@ -12,14 +12,20 @@ export default function Game() {
   const [showIntroModal, setShowIntroModal] = useState(true);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleStart = () => {
-    setShowIntroModal(false);
+  // Start the game world immediately (if needed)
+  useEffect(() => {
     start();
+    // Try to play background music
     if (backgroundMusic && !isMuted) {
       backgroundMusic.play().catch(() => {
         console.log("Background music play prevented by browser policy");
       });
     }
+    // eslint-disable-next-line
+  }, []);
+
+  const handleStart = () => {
+    setShowIntroModal(false);
     if (timerRef.current) clearTimeout(timerRef.current);
   };
 
@@ -32,18 +38,11 @@ export default function Game() {
     if (showIntroModal) {
       timerRef.current = setTimeout(() => {
         setShowIntroModal(false);
-        start();
-        if (backgroundMusic && !isMuted) {
-          backgroundMusic.play().catch(() => {
-            console.log("Background music play prevented by browser policy");
-          });
-        }
       }, 4000);
     }
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-    // eslint-disable-next-line
   }, [showIntroModal]);
 
   return (
