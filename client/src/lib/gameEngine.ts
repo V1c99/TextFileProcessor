@@ -695,5 +695,6 @@ export class GameEngine {
     this.keys.clear();
     this.particles = [];
     this.dustParticles = [];
+    this.gameEnded = false;
   }
 }
