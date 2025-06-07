@@ -50,7 +50,7 @@ export default function Game() {
       <GameCanvas>
         <GameUI onRestart={handleRestart} />
         {showIntroModal && (
-          <div className="absolute inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm">
+          <div className="absolute inset-0 flex items-center justify-center z-50">
             <Card className="max-w-2xl mx-4 bg-black/80 border-red-600 shadow-2xl">
               <CardContent className="p-8 text-center">
                 <h1 className="text-4xl font-bold text-red-400 mb-4">
