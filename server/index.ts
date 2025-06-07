@@ -1,7 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
-import path from "path";
+import { setupVite, log } from "./vite";
 
 const app = express();
 app.use(express.json());
@@ -48,18 +47,9 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // Handle both development and production modes
+  // In development, use Vite for SSR/middleware
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
-  } else {
-    // In production, serve static files from the dist directory
-    const distPath = path.resolve(__dirname, "../dist");
-    app.use(express.static(distPath));
-    
-    // Serve index.html for all other routes
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
   }
 
   // Only start the server if we're not in a serverless environment
